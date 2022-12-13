@@ -1,0 +1,19 @@
+.color-picker input[type='radio']:checked {
+  background-color: var(--radio-color);
+}
+
+.color-picker input[type='radio']#light {
+  --radio-color: gray;
+}
+.color-picker input[type='radio']#pink {
+  --radio-color: pink;
+}
+.color-picker input[type='radio']#blue {
+  --radio-color: blue;
+}
+.color-picker input[type='radio']#green {
+  --radio-color: green;
+}
+.color-picker input[type='radio']#dark {
+  --radio-color: #232323;
+}
