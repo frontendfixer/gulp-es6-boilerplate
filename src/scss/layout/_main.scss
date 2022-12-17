@@ -1,1 +1,98 @@
 @use '../mixin' as *;
+
+.root {
+  margin-block: 5%;
+}
+.card {
+  background-color: hsl(0 0% 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto;
+  place-content: center;
+  gap: calc(rem(40px) - 0.7vw);
+  @include mq-min(small) {
+    grid-template-columns: 2fr 3fr;
+  }
+  border-radius: var(--border, rem(8px));
+  overflow: hidden;
+  position: relative;
+
+  &__image {
+    height: 100%;
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
+  &__body {
+    display: grid;
+    place-content: center;
+    margin: rem(20px);
+    .heading {
+      font-size: clamp(16px, 1.8vw, 26px);
+      line-height: 1.5;
+      margin-block-end: rem(8px);
+    }
+    .article {
+      color: var(--clr-blue-70);
+      margin-block-end: rem(8px);
+    }
+  }
+  .avater {
+    display: flex;
+    justify-content: space-between;
+    &__description {
+      display: flex;
+      align-items: center;
+      gap: rem(8px);
+      img {
+        width: rem(40px);
+        border-radius: 50%;
+        outline: 1px solid var(--clr-blue-90);
+        outline-offset: rem(2px);
+      }
+      .details {
+        h2 {
+          letter-spacing: 1px;
+          font-size: var(--fs-body);
+          font-weight: var(--fw-bold);
+        }
+      }
+    }
+    .share-btn {
+      position: relative;
+      z-index: 99;
+      transition: all var(--transition);
+      img {
+        width: 36px;
+        height: 36px;
+        background-color: var(--clr-blue-30);
+        padding: 10px;
+        border-radius: 50%;
+        &:where(:hover, :focus, :active) {
+          background-color: var(--clr-blue-70);
+        }
+      }
+    }
+    .social-links {
+      background-color: var(--clr-blue-90);
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-block: rem(20px);
+
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      > * {
+        padding-left: rem(20px);
+      }
+      span {
+        font-size: rem(16px);
+        letter-spacing: 1px;
+        color: var(--clr-blue-30);
+      }
+    }
+  }
+}

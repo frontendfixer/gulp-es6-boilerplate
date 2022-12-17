@@ -3,9 +3,8 @@
 body {
   display: grid;
   place-content: center;
-  background: linear-gradient(
-    to top left,
-    hsl(147, 90%, 67%),
-    hsl(236, 69%, 74%)
-  );
+  background-color: var(--clr-blue-30);
+  font-size: var(--fs-body);
+  color: var(--clr-blue-90);
+  font-weight: var(--fs-regular);
 }
