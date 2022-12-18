@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 const { src, dest, watch, series } = gulp;
+import changed from 'gulp-changed';
 
 import htmlminifier from 'gulp-html-minifier-terser';
 
@@ -21,40 +22,55 @@ const browsersync = require('browser-sync').create();
 const path = {
   html: {
     src: './src/index.html',
-    dest: './dist/',
+    dest: './build/',
+    pro: './dist',
   },
   css: {
-    src: ['./src/scss/style.scss'],
-    dest: './dist/assets/css/',
+    src: ['./src/assets/scss/style.scss'],
+    dest: './build/assets/css/',
+    pro: './dist/assets/css/',
   },
 
   js: {
     src: [
-      './src/js/dom-selector.js',
-      './src/js/component.js',
-      './src/js/main.js',
+      './src/assets/js/dom-selector.js',
+      './src/assets/js/component.js',
+      './src/assets/js/main.js',
     ],
-    dest: './dist/assets/js/',
+    dest: './build/assets/js/',
+    pro: './dist/assets/js/',
   },
   img: {
-    src: ['./src/img/*.{jpg,png}'],
-    srcAll: ['./src/img/*'],
-    dest: './dist/assets/img/',
+    src: ['./src/assets/img/*.{jpg,png}'],
+    srcAll: ['./src/assets/img/*'],
+    dest: './build/assets/img/',
+    pro: './dist/assets/img/',
   },
   screenshot: {
     src: './src/screenshot/*.{jpg,png}',
-    dest: './dist/assets/screenshot/',
+    dest: './build/assets/screenshot/',
+    pro: './dist/assets/screenshot/',
   },
 };
 
 // +++++++++ IMAGE Start ++++++++++
 
 export function imgTask() {
-  return src(path.img.srcAll).pipe(dest(path.img.dest));
+  return src(path.img.srcAll)
+    .pipe(changed(path.img.dest))
+    .pipe(dest(path.img.dest));
+}
+
+export function imgPro() {
+  return src(path.img.srcAll).pipe(dest(path.img.pro));
 }
 
 // ++++++++++ HTML Start +++++++++++++
 export function htmlTask() {
+  return src(path.html.src).pipe(dest(path.html.dest));
+}
+
+export function htmlPro() {
   return src(path.html.src)
     .pipe(
       htmlminifier({
@@ -65,34 +81,50 @@ export function htmlTask() {
         removeComments: true,
       })
     )
-    .pipe(dest(path.html.dest));
+    .pipe(dest(path.html.pro));
 }
 
 // +++++++++ SASS Start ++++++++++++
-export function cssTask() {
-  const plugins = [
-    autoPrefixer({
-      add: true,
-      flexbox: false,
-      grid: false,
+const plugins = [
+  autoPrefixer({
+    add: true,
+    flexbox: false,
+    grid: false,
 
-      cascade: false,
-    }),
-    cssnano(),
-    postcssPresetEnv({
-      stage: 2,
-      minimumVendorImplementations: 2,
-    }),
-  ];
+    cascade: false,
+  }),
+  cssnano(),
+  postcssPresetEnv({
+    stage: 2,
+    minimumVendorImplementations: 2,
+  }),
+];
+export function cssTask() {
   return src(path.css.src, { sourcemaps: true })
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-    .pipe(GulpPostCss(plugins))
+    .pipe(changed(path.css.dest))
+    .pipe(sass())
     .pipe(dest(path.css.dest, { sourcemaps: '.' }));
+}
+
+export function cssPro() {
+  return src(path.css.src, { sourcemaps: true })
+    .pipe(changed(path.css.dest))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(GulpPostCss(plugins))
+    .pipe(dest(path.css.pro, { sourcemaps: '.' }));
 }
 
 // +++++++++ javaScript Start ++++++++++++
 export function jsTask() {
   return src(path.js.src, { sourcemaps: true })
+    .pipe(changed(path.js.dest))
+    .pipe(GulpConcat('script.js'))
+    .pipe(dest(path.js.dest, { sourcemaps: '.' }));
+}
+
+export function jsPro() {
+  return src(path.js.src, { sourcemaps: true })
+    .pipe(changed(path.js.dest))
     .pipe(GulpConcat('script.js'))
     .pipe(
       babel({
@@ -100,14 +132,14 @@ export function jsTask() {
       })
     )
     .pipe(GulpTerser())
-    .pipe(dest(path.js.dest, { sourcemaps: '.' }));
+    .pipe(dest(path.js.pro, { sourcemaps: '.' }));
 }
 
 // +++++++++ Browse-sync Start ++++++++++++
 function browsersyncServe(cb) {
   browsersync.init({
     server: {
-      baseDir: './dist',
+      baseDir: './build',
     },
     port: 8080,
     ui: {
@@ -125,19 +157,21 @@ function browsersyncReload(cb) {
 function watchTask() {
   watch(
     [
-      './src/img/*.{jpg,png}',
+      './src/assets/img/*.{jpg,png}',
       './src/*.html',
-      './src/scss/**/*.scss',
-      './src/js/**/*.js',
+      './src/assets/scss/**/*.scss',
+      './src/assets/js/**/*.js',
     ],
     series(imgTask, htmlTask, cssTask, jsTask, browsersyncReload)
   );
 }
 
+// Default Gulp task
 const build = series(
   gulp.parallel(imgTask, htmlTask, cssTask, jsTask, browsersyncServe),
   watchTask
 );
-
-// Default Gulp task
 export default build;
+
+// Distribution Gulp Task
+export const dist = series(gulp.parallel(imgPro, htmlPro, cssPro, jsPro));

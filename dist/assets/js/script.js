@@ -1,2 +1,0 @@
-"use strict";const shareBtn=document.querySelector(".share-btn"),socialLinks=document.querySelector(".social-links");shareBtn.addEventListener("click",(()=>{socialLinks.classList.toggle("visually-hidden")}));
-//# sourceMappingURL=script.js.map
