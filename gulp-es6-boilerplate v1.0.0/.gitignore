@@ -1,6 +1,0 @@
-# Uncomment this to ignore upload of this folders anf files
-# ++++++++++++++++++++++++++
-node_modules/
-package-lock.json
-# *.json
-# ++++++++++++++++++++++++++

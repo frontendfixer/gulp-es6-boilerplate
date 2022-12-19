@@ -53,6 +53,25 @@ const path = {
   },
 };
 
+// +++++++++ SVG Start ++++++++++
+import svgMin from 'gulp-svgmin';
+import svgStore from 'gulp-svgstore';
+import rename from 'gulp-rename';
+import gulpInject from 'gulp-inject';
+
+export function svgTask() {
+  const svgs = src('./src/assets/img/*.svg')
+    .pipe(svgMin())
+    .pipe(svgStore({ inlineSvg: true }))
+    .pipe(rename('sprite.svg'))
+    .pipe(dest(path.img.dest));
+  function fileContents(filePath, file) {
+    return file.contents.toString();
+  }
+  return src(path.html.src)
+    .pipe(gulpInject(svgs, { transform: fileContents }))
+    .pipe(dest(path.html.dest));
+}
 // +++++++++ IMAGE Start ++++++++++
 
 export function imgTask() {

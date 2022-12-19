@@ -3,6 +3,6 @@
 defaults and supports es6-module
 maintained node versions
 >= 0.5%
-iOS >= 15
-Safari >= 15
+iOS >= 14
+Safari >= 14
 not Explorer <= 11
