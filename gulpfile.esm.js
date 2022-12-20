@@ -35,16 +35,19 @@ const path = {
     src: [
       './src/assets/js/dom-selector.js',
       './src/assets/js/component.js',
+      // './src/assets/js/sprite.js',
       './src/assets/js/main.js',
     ],
     dest: './build/assets/js/',
     pro: './dist/assets/js/',
   },
   img: {
-    src: ['./src/assets/img/*.{jpg,png}'],
-    srcAll: ['./src/assets/img/*'],
-    dest: './build/assets/img/',
-    pro: './dist/assets/img/',
+    srcJpgPng: ['./src/assets/img/*.{jpg,png}'],
+    srcSvg: ['./src/assets/img/*.svg'],
+    destJpgPng: './build/assets/img/',
+    destSvg: './build/assets/img/SVG/',
+    proJpgSvg: './dist/assets/img/',
+    proSvg: './dist/assets/img/SVG',
   },
   screenshot: {
     src: './src/screenshot/*.{jpg,png}',
@@ -54,34 +57,44 @@ const path = {
 };
 
 // +++++++++ SVG Start ++++++++++
-import svgMin from 'gulp-svgmin';
-import svgStore from 'gulp-svgstore';
-import rename from 'gulp-rename';
-import gulpInject from 'gulp-inject';
+import svgMin from 'gulp-svgo';
+import svgSprite from 'gulp-svg-sprite';
 
+const config = {
+  mode: {
+    symbol: {
+      inline: true,
+      dest: '.',
+      sprite: 'sprite.svg',
+    },
+  },
+  shape: {
+    dest: '.',
+  },
+};
 export function svgTask() {
-  const svgs = src('./src/assets/img/*.svg')
+  return src(path.img.srcSvg)
     .pipe(svgMin())
-    .pipe(svgStore({ inlineSvg: true }))
-    .pipe(rename('sprite.svg'))
-    .pipe(dest(path.img.dest));
-  function fileContents(filePath, file) {
-    return file.contents.toString();
-  }
-  return src(path.html.src)
-    .pipe(gulpInject(svgs, { transform: fileContents }))
-    .pipe(dest(path.html.dest));
+    .pipe(svgSprite(config))
+    .pipe(dest(path.img.destSvg));
+}
+
+export function svgPro() {
+  return src(path.img.srcSvg)
+    .pipe(svgMin())
+    .pipe(svgSprite(config))
+    .pipe(dest(path.img.proSvg));
 }
 // +++++++++ IMAGE Start ++++++++++
 
 export function imgTask() {
-  return src(path.img.srcAll)
-    .pipe(changed(path.img.dest))
-    .pipe(dest(path.img.dest));
+  return src(path.img.srcJpgPng)
+    .pipe(changed(path.img.destJpgPng))
+    .pipe(dest(path.img.destJpgPng));
 }
 
 export function imgPro() {
-  return src(path.img.srcAll).pipe(dest(path.img.pro));
+  return src(path.img.srcJpgPng).pipe(dest(path.img.proJpgSvg));
 }
 
 // ++++++++++ HTML Start +++++++++++++
@@ -175,22 +188,22 @@ function browsersyncReload(cb) {
 //+++++++++ Watch Task +++++++++++
 function watchTask() {
   watch(
-    [
-      './src/assets/img/*.{jpg,png}',
-      './src/*.html',
-      './src/assets/scss/**/*.scss',
-      './src/assets/js/**/*.js',
-    ],
-    series(imgTask, htmlTask, cssTask, jsTask, browsersyncReload)
+    ['./src/*.html', './src/assets/scss/**/*.scss', './src/assets/js/**/*.js'],
+    series(htmlTask, cssTask, jsTask, browsersyncReload)
   );
 }
 
+// Gulp Image Processing
+export const image = series(svgTask, imgTask);
+
 // Default Gulp task
 const build = series(
-  gulp.parallel(imgTask, htmlTask, cssTask, jsTask, browsersyncServe),
+  gulp.parallel(image, htmlTask, cssTask, jsTask, browsersyncServe),
   watchTask
 );
 export default build;
 
 // Distribution Gulp Task
-export const dist = series(gulp.parallel(imgPro, htmlPro, cssPro, jsPro));
+export const dist = series(
+  gulp.parallel(svgPro, imgPro, htmlPro, cssPro, jsPro)
+);
