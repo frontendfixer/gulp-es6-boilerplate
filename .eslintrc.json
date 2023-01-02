@@ -13,16 +13,7 @@
     "indent": 0,
     "linebreak-style": 0,
     "no-unused-vars": "warn",
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "never",
-        "objects": "never",
-        "imports": "never",
-        "exports": "never",
-        "functions": "never"
-      }
-    ],
+    "comma-dangle": ["warn", "only-multiline"],
     "object-curly-newline": [
       "error",
       {
@@ -33,10 +24,10 @@
       }
     ],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
-        "trailingComma": "all",
         "singleQuote": true,
+        "arrowParens": "always",
         "semi": true
       }
     ]

@@ -112,7 +112,7 @@ export function htmlPro() {
         minifyJS: true,
         preserveLineBreaks: false,
         removeComments: true,
-      }),
+      })
     )
     .pipe(dest(path.html.pro));
 }
@@ -135,19 +135,21 @@ const plugins = [
 export function cssTask() {
   return src(path.css.src, {
     sourcemaps: true,
+    allowEmpty: true,
   })
     .pipe(changed(path.css.dest))
     .pipe(sass())
     .pipe(
       dest(path.css.dest, {
         sourcemaps: '.',
-      }),
+      })
     );
 }
 
 export function cssPro() {
   return src(path.css.src, {
     sourcemaps: true,
+    allowEmpty: true,
   })
     .pipe(changed(path.css.dest))
     .pipe(sass().on('error', sass.logError))
@@ -155,7 +157,7 @@ export function cssPro() {
     .pipe(
       dest(path.css.pro, {
         sourcemaps: '.',
-      }),
+      })
     );
 }
 
@@ -163,32 +165,34 @@ export function cssPro() {
 export function jsTask() {
   return src(path.js.src, {
     sourcemaps: true,
+    allowEmpty: true,
   })
     .pipe(changed(path.js.dest))
     .pipe(GulpConcat('script.js'))
     .pipe(
       dest(path.js.dest, {
         sourcemaps: '.',
-      }),
+      })
     );
 }
 
 export function jsPro() {
   return src(path.js.src, {
     sourcemaps: true,
+    allowEmpty: true,
   })
     .pipe(changed(path.js.dest))
     .pipe(GulpConcat('script.js'))
     .pipe(
       babel({
         presets: ['@babel/preset-env'],
-      }),
+      })
     )
     .pipe(GulpTerser())
     .pipe(
       dest(path.js.pro, {
         sourcemaps: '.',
-      }),
+      })
     );
 }
 
@@ -214,18 +218,18 @@ function browsersyncReload(cb) {
 function watchTask() {
   watch(
     ['./src/*.html', './src/assets/scss/**/*.scss', './src/assets/js/**/*.js'],
-    series(htmlTask, cssTask, jsTask, browsersyncReload),
+    series(htmlTask, cssTask, jsTask, browsersyncReload)
   );
 }
 
 // Default Gulp task
 const build = series(
   gulp.parallel(svgTask, imgTask, htmlTask, cssTask, jsTask, browsersyncServe),
-  watchTask,
+  watchTask
 );
 export default build;
 
 // Distribution Gulp Task
 export const dist = series(
-  gulp.parallel(svgPro, imgPro, htmlPro, cssPro, jsPro),
+  gulp.parallel(svgPro, imgPro, htmlPro, cssPro, jsPro)
 );

@@ -58,6 +58,28 @@ picture {
   }
 }
 
+/* ============ Scrollbar Styling ================ */
+// Works on Firefox
+* {
+  scrollbar-width: 16px;
+  scrollbar-color: var(--clr-red-50) var(--clr-red-30);
+}
+
+// Works on Chrome, Edge, and Safari
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--clr-red-30);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--clr-red-50);
+  border-radius: 20px;
+  border: 2px solid var(--clr-red-50);
+}
+
 /*===============================================
 ================ MAIN LAYOUT ====================
 ===============================================*/
