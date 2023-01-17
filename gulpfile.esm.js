@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 import changed from 'gulp-changed';
+import gulpCopy from 'gulp-copy';
 
 import htmlminifier from 'gulp-html-minifier-terser';
 
@@ -13,10 +14,6 @@ import dartSass from 'sass';
 import babel from 'gulp-babel';
 import GulpConcat from 'gulp-concat';
 import GulpTerser from 'gulp-terser';
-
-// +++++++++ SVG Start ++++++++++
-import svgSprite from 'gulp-svg-sprite';
-import svgMin from 'gulp-svgo';
 
 const { src, dest, watch, series } = gulp;
 const sass = gulpSass(dartSass);
@@ -40,51 +37,36 @@ const path = {
     src: [
       './src/assets/js/dom-selector.js',
       './src/assets/js/component.js',
-      './src/assets/js/sprite.js',
       './src/assets/js/main.js',
     ],
     dest: './build/assets/js/',
     pro: './assets/js/',
   },
   img: {
-    srcJpgPng: ['./src/assets/img/*.{jpg,png}'],
-    srcSvg: ['./src/assets/img/SVG/*.svg'],
+    srcJpgPng: './src/assets/img/*.{jpg,png}',
+    srcSvg: './src/assets/img/*.svg',
+
     destJpgPng: './build/assets/img/',
-    destSvg: './build/assets/img/SVG/',
+    destSvg: './build/assets/img/',
+
     proJpgSvg: './assets/img/',
-    proSvg: './assets/img/SVG',
   },
   screenshot: {
     src: './src/screenshot/*.{jpg,png}',
     dest: './build/assets/screenshot/',
-    pro: './dist/assets/screenshot/',
+
+    pro: './assets/screenshot/',
   },
 };
 
-const config = {
-  mode: {
-    symbol: {
-      inline: true,
-      dest: '.',
-      sprite: 'sprite.svg',
-    },
-  },
-  shape: {
-    dest: '.',
-  },
-};
+//  ++++++++++ SVGTask Start +++++++++
+
 export function svgTask() {
-  return src(path.img.srcSvg)
-    .pipe(svgMin())
-    .pipe(svgSprite(config))
-    .pipe(dest(path.img.destSvg));
+  return src(path.img.srcSvg).pipe(gulpCopy(path.img.destSvg, { prefix: 3 }));
 }
 
 export function svgPro() {
-  return src(path.img.srcSvg)
-    .pipe(svgMin())
-    .pipe(svgSprite(config))
-    .pipe(dest(path.img.proSvg));
+  return src(path.img.srcSvg).pipe(gulpCopy(path.img.proJpgSvg, { prefix: 3 }));
 }
 // +++++++++ IMAGE Start ++++++++++
 
@@ -137,7 +119,6 @@ export function cssTask() {
     sourcemaps: true,
     allowEmpty: true,
   })
-    .pipe(changed(path.css.dest))
     .pipe(sass())
     .pipe(
       dest(path.css.dest, {
@@ -151,7 +132,6 @@ export function cssPro() {
     sourcemaps: true,
     allowEmpty: true,
   })
-    .pipe(changed(path.css.dest))
     .pipe(sass().on('error', sass.logError))
     .pipe(GulpPostCss(plugins))
     .pipe(
@@ -167,7 +147,6 @@ export function jsTask() {
     sourcemaps: true,
     allowEmpty: true,
   })
-    .pipe(changed(path.js.dest))
     .pipe(GulpConcat('script.js'))
     .pipe(
       dest(path.js.dest, {
@@ -181,7 +160,6 @@ export function jsPro() {
     sourcemaps: true,
     allowEmpty: true,
   })
-    .pipe(changed(path.js.dest))
     .pipe(GulpConcat('script.js'))
     .pipe(
       babel({
@@ -209,6 +187,20 @@ function browsersyncServe(cb) {
   });
   cb();
 }
+
+function browsersyncServePro(cb) {
+  browsersync.init({
+    server: {
+      baseDir: './',
+    },
+    port: 3000,
+    ui: {
+      port: 3030,
+    },
+  });
+  cb();
+}
+
 function browsersyncReload(cb) {
   browsersync.reload();
   cb();
@@ -217,8 +209,13 @@ function browsersyncReload(cb) {
 // +++++++++ Watch Task +++++++++++
 function watchTask() {
   watch(
-    ['./src/*.html', './src/assets/scss/**/*.scss', './src/assets/js/**/*.js'],
-    series(htmlTask, cssTask, jsTask, browsersyncReload)
+    [
+      './src/*.html',
+      './src/assets/scss/**/*.scss',
+      './src/assets/js/**/*.js',
+      './src/assets/img/*.{jpg,png,svg}',
+    ],
+    series(htmlTask, cssTask, jsTask, imgTask, svgTask, browsersyncReload)
   );
 }
 
@@ -231,5 +228,5 @@ export default build;
 
 // Distribution Gulp Task
 export const dist = series(
-  gulp.parallel(svgPro, imgPro, htmlPro, cssPro, jsPro)
+  gulp.parallel(svgPro, imgPro, htmlPro, cssPro, jsPro, browsersyncServePro)
 );

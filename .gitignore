@@ -1,8 +1,6 @@
 # Uncomment this to ignore upload of this folders anf files
 # ++++++++++++++++++++++++++
 node_modules/
-.vscode/
 build/
-assets/
 # *.json
 # ++++++++++++++++++++++++++

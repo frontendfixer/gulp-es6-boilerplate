@@ -1,5 +1,8 @@
 @use '../mixin' as *;
 
 body {
-  
+  background-color: var(#fff, --bg-primary);
+  color: var(--clr-primary, #1a1a1e);
+  font-family: var(--ff-primary, monospace);
+  font-size: var(--fs-primary, 16px);
 }

@@ -6,16 +6,19 @@
 //================ Colors ================//
 
 //=========== Display ============
+.container {
+  margin-inline: auto;
+  padding-inline: var(--padding-base, 1rem);
+  max-width: clamp(90%, 66.667%, 60rem);
+}
+
 .flex {
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: var(--gap, 1rem);
 }
 
 .grid {
   display: grid;
-  place-content: center;
   gap: var(--gap, 1rem);
 }
 
@@ -29,9 +32,4 @@
   position: absolute;
   width: 1px;
   white-space: nowrap;
-}
-.svgSprite{
-  width: 0;
-  height: 0;
-  display: none;
 }

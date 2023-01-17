@@ -1,0 +1,118 @@
+{
+  // Generic Setings
+  "workbench.iconTheme": "material-icon-theme",
+  "html.hover.references": false,
+  "css.hover.references": false,
+  "html.hover.documentation": false,
+  "css.hover.documentation": false,
+  "workbench.startupEditor": "none",
+  "explorer.confirmDragAndDrop": false,
+  "git.confirmSync": true,
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "explorer.confirmDelete": false,
+  "workbench.colorTheme": "Dracula Refined",
+  "workbench.productIconTheme": "fluent-icons",
+  "editor.wordWrap": "on",
+  "editor.fontSize": 16,
+  "editor.fontFamily": "'Cascadia Code'",
+  "editor.fontWeight": "300",
+  "editor.fontLigatures": true,
+  "editor.cursorBlinking": "smooth",
+  "terminal.integrated.cursorStyle": "line",
+
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#22272b",
+    "statusBar.foreground": "#cfcff7",
+    "statusBar.border": "#106355",
+    "statusBarItem.errorBackground": "#ff5e5e",
+    "statusBarItem.errorForeground": "#212128",
+    "statusBarItem.warningBackground": "#ff5e5e",
+    "statusBarItem.warningForeground": "#212128",
+    "statusBarItem.activeBackground": "#5fff87",
+    "statusBarItem.hoverBackground": "#106355"
+  },
+
+  // ============ Emmit Config ===========
+  "emmet.includeLanguages": {
+    "html": "html",
+    "css": "css",
+    "javascript": "javascript",
+    "plaintext": "pug",
+    "typescript": "typescriptreact"
+    // "javascript": "javascriptreact",
+  },
+  "emmet.useInlineCompletions": true,
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.excludeLanguages": [],
+  "html.format.contentUnformatted": "",
+  "emmet.showSuggestionsAsSnippets": true,
+
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "on",
+      "strings": "on"
+    }
+  },
+  "[json]": {
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "on",
+      "strings": "on"
+    }
+  },
+  "emmet.syntaxProfiles": {
+    "html": {
+      "filters": "bem"
+    }
+  },
+  "emmet.preferences": {
+    "css.color.short": true
+  },
+  "editor.linkedEditing": true,
+  // =========== Prettier config ===========
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // "prettier.singleQuote": true,
+  // "prettier.arrowParens": "avoid",
+
+  // ============= ESLint Config =============
+  "eslint.format.enable": true,
+  "editor.formatOnSave": true,
+  // turn it off for JS and JSX, we will do this via eslint
+  "[javascript, javascriptreact]": {
+    "editor.formatOnSave": false
+  },
+
+  "eslint.alwaysShowStatus": true,
+  // ========================================
+  "github.gitProtocol": "ssh",
+  "html.completion.attributeDefaultValue": "singlequotes",
+
+  "editor.snippetSuggestions": "top",
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on"
+  },
+  "editor.tabCompletion": "on",
+
+  // ============= Path Intellisence=============
+  "typescript.suggest.paths": false,
+  "javascript.suggest.paths": false,
+  "path-intellisense.autoSlashAfterDirectory": true,
+  "path-intellisense.autoTriggerNextSuggestion": true,
+  "path-intellisense.showHiddenFiles": true,
+  "path-intellisense.mappings": {
+    "/": "${workspaceFolder}"
+  },
+  "explorer.compactFolders": false,
+  "editor.tabSize": 2,
+  "editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",
+  "editor.dragAndDrop": false,
+  "editor.foldingStrategy": "indentation",
+  "editor.guides.bracketPairs": "active",
+  "editor.mouseWheelZoom": true,
+  "editor.renderLineHighlight": "all",
+  "editor.renderLineHighlightOnlyWhenFocus": true,
+  "javascript.updateImportsOnFileMove.enabled": "always"
+}
