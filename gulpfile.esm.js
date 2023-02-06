@@ -34,11 +34,7 @@ const path = {
   },
 
   js: {
-    src: [
-      './src/assets/js/dom-selector.js',
-      './src/assets/js/component.js',
-      './src/assets/js/main.js',
-    ],
+    src: ['./src/assets/js/main.js'],
     dest: './build/assets/js/',
     pro: './assets/js/',
   },
