@@ -15,7 +15,7 @@
   "workbench.productIconTheme": "fluent-icons",
   "editor.wordWrap": "on",
   "editor.fontSize": 16,
-  "editor.fontFamily": "'Cascadia Code'",
+  "editor.fontFamily": "'Cascadia Code', 'FiraCode Nerd Font'",
   "editor.fontWeight": "300",
   "editor.fontLigatures": true,
   "editor.cursorBlinking": "smooth",
@@ -62,11 +62,11 @@
       "strings": "on"
     }
   },
-  "emmet.syntaxProfiles": {
-    "html": {
-      "filters": "bem"
-    }
-  },
+  // "emmet.syntaxProfiles": {
+  //   "html": {
+  //     "filters": "bem"
+  //   }
+  // },
   "emmet.preferences": {
     "css.color.short": true
   },
