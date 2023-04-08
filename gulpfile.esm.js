@@ -58,11 +58,19 @@ const path = {
 //  ++++++++++ SVGTask Start +++++++++
 
 export function svgTask() {
-  return src(path.img.srcSvg).pipe(gulpCopy(path.img.destSvg, { prefix: 3 }));
+  return src(path.img.srcSvg).pipe(
+    gulpCopy(path.img.destSvg, {
+      prefix: 3,
+    })
+  );
 }
 
 export function svgPro() {
-  return src(path.img.srcSvg).pipe(gulpCopy(path.img.proJpgSvg, { prefix: 3 }));
+  return src(path.img.srcSvg).pipe(
+    gulpCopy(path.img.proJpgSvg, {
+      prefix: 3,
+    })
+  );
 }
 // +++++++++ IMAGE Start ++++++++++
 

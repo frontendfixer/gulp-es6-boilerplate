@@ -11,8 +11,9 @@
   "git.enableSmartCommit": true,
   "git.autofetch": true,
   "explorer.confirmDelete": false,
-  "workbench.colorTheme": "Dracula Refined",
+  "workbench.colorTheme": "Monokai Pro (Filter Octagon)",
   "workbench.productIconTheme": "fluent-icons",
+  "files.autoSave": "onWindowChange",
   "editor.wordWrap": "on",
   "editor.fontSize": 16,
   "editor.fontFamily": "'Cascadia Code', 'FiraCode Nerd Font'",
@@ -20,6 +21,8 @@
   "editor.fontLigatures": true,
   "editor.cursorBlinking": "smooth",
   "terminal.integrated.cursorStyle": "line",
+  "workbench.preferredDarkColorTheme": "Monokai Pro (Filter Octagon)",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
 
   "workbench.colorCustomizations": {
     "statusBar.background": "#22272b",
